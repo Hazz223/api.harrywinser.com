@@ -12,6 +12,6 @@ public interface ArticleService {
 
     Page<ArticleDto> getArticlesByType(String type, Pageable pageable);
 
-    Page<ArticleDto> getArticlesByName(String name, Pageable pageable);
+    Page<ArticleDto> searchForArticles(String searchTerm, Pageable pageable);
 
 }

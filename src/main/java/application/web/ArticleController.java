@@ -40,4 +40,9 @@ public class ArticleController {
         return this.articleService.getArticlesByType(term, pageable);
     }
 
+    @RequestMapping(value = "/article")
+    public Page<ArticleDto> searchForArticle(@RequestParam("search") String searchTerm, Pageable pageable){
+
+        return this.articleService.searchForArticles(searchTerm, pageable);
+    }
 }

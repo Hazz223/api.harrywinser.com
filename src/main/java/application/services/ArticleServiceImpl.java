@@ -43,7 +43,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<ArticleDto> getArticlesByType(String type, Pageable pageable) {
 
-        Page<Article> pageArticles = this.articleDao.findByType(type, pageable);
+        Page<Article> pageArticles;
+
+        if("all".equalsIgnoreCase(type)){
+            pageArticles = this.articleDao.findAll(pageable);
+        }
+
+        pageArticles = this.articleDao.findByType(type, pageable);
 
         List<ArticleDto> result = pageArticles.getContent().stream()
                         .map(this.dtoConverter::convert)
@@ -53,10 +59,20 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<ArticleDto> getArticlesByName(String name, Pageable pageable) {
-        return null;
-    }
+    public Page<ArticleDto> searchForArticles(String searchTerm, Pageable pageable) {
 
+        // This hasn't worked correctly. It's not finding the right data data when i do a search. annoyingly... Lame!
+
+        Page<Article> pageArticles =
+                 this.articleDao.findByTitleContainingIgnoreCaseOrCleanTitleContainingIgnoreCaseOrDataContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageable);
+
+        List<ArticleDto> result = pageArticles.getContent().stream()
+                .map(this.dtoConverter::convert)
+                .collect(Collectors.toList());
+
+
+        return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
+    }
 
     private Long convertSearchTermToLong(String searchTerm){
 

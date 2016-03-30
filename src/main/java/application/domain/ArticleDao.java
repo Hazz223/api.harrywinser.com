@@ -12,7 +12,7 @@ public interface ArticleDao extends PagingAndSortingRepository<Article, Long> {
 
     Optional<Article> findByTitleIgnoreCaseOrCleanTitleIgnoreCaseOrId(String term, String cleanTitle, Long id);
 
-    Page<Article> findByTitle(String name, Pageable pageable);
+    Page<Article> findByTitleContainingIgnoreCaseOrCleanTitleContainingIgnoreCaseOrDataContainingIgnoreCase(String term, String cleanTitle, String data, Pageable pageable);
 
     Page<Article> findByType(String type, Pageable pageable);
 
