@@ -31,7 +31,6 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile('com.google.guava:guava:r05')
     runtime('mysql:mysql-connector-java')

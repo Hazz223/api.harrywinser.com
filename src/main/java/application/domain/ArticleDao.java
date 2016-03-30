@@ -14,4 +14,6 @@ public interface ArticleDao extends PagingAndSortingRepository<Article, Long> {
 
     Page<Article> findByTitle(String name, Pageable pageable);
 
+    Page<Article> findByType(String type, Pageable pageable);
+
 }
