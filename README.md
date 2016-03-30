@@ -16,7 +16,7 @@ Example: /article/example_page.
 Get all articles by type. They will be returned in an array. The current types are: blog, review, tech, all.
 This data is contained within the Spring pagination. You can check out more of the docs here:
 
-'http://docs.spring.io/spring-data/rest/docs/1.1.x/reference/html/paging-chapter.html'
+[Springboot Pagination Documentation] (http://docs.spring.io/spring-data/rest/docs/1.1.x/reference/html/paging-chapter.html)
 
 Example: /article/type/blog?page2&limit=3
 
