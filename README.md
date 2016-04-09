@@ -23,11 +23,14 @@ This data is contained within the Spring pagination. You can check out more of t
 
 Example: /article/type/blog?page2&limit=3
 
-`article?searchTerm={some name}`
+`article?search={some name}`
 
 Searches, and will return any matches where the name or clean_title contains / matches. The same pageination rules apply as above.
 This will return an empty list if none are found.
 Example: /article?searchTerm=example_blog&page=1&limit=2
+
+Please note that search is currently not working 100%. For some arbitrary reason, it doesn't always search the content in the
+main data block. Not 100% sure why. But will update once I've gotten to the bottom of this.
 
 
 ## Installation
