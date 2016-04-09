@@ -16,4 +16,10 @@ public interface ArticleDao extends PagingAndSortingRepository<Article, Long> {
 
     Page<Article> findByType(String type, Pageable pageable);
 
+    Page<Article> findByTitleContainingIgnoreCase(String term, Pageable pageable);
+
+    Page<Article> findByCleanTitleContainingIgnoreCase(String term, Pageable pageable);
+
+    Page<Article> findByDataContainingIgnoreCase(String term, Pageable page);
+
 }

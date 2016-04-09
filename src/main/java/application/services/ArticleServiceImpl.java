@@ -61,17 +61,27 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<ArticleDto> searchForArticles(String searchTerm, Pageable pageable) {
 
-        // This hasn't worked correctly. It's not finding the right data data when i do a search. annoyingly... Lame!
+        Page<Article> titleArticles = this.articleDao.findByTitleContainingIgnoreCase(searchTerm, pageable);
+        Page<Article> cleanTitleArticles = this.articleDao.findByCleanTitleContainingIgnoreCase(searchTerm, pageable);
+        Page<Article> dataArticles = this.articleDao.findByDataContainingIgnoreCase(searchTerm, pageable);
 
-        Page<Article> pageArticles =
-                 this.articleDao.findByTitleContainingIgnoreCaseOrCleanTitleContainingIgnoreCaseOrDataContainingIgnoreCase(searchTerm, searchTerm, searchTerm, pageable);
 
-        List<ArticleDto> result = pageArticles.getContent().stream()
+        List<Article> pageArticles = new ArrayList<>();
+
+        pageArticles.addAll(titleArticles.getContent());
+        pageArticles.addAll(cleanTitleArticles.getContent());
+        pageArticles.addAll(dataArticles.getContent());
+
+        Long totalElements =
+                titleArticles.getTotalElements() + cleanTitleArticles.getTotalElements() + dataArticles.getTotalElements();
+
+
+        List<ArticleDto> result = pageArticles.stream()
                 .map(this.dtoConverter::convert)
                 .collect(Collectors.toList());
 
 
-        return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
+        return new PageImpl<>(result, pageable, totalElements);
     }
 
     private Long convertSearchTermToLong(String searchTerm){

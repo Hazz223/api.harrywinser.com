@@ -33,8 +33,8 @@ public class ArticleController {
             throw new ResourceNotFoundException("Type cannot be null or empty");
         }
 
-        if(!"blog".equalsIgnoreCase(term) && !"tech".equalsIgnoreCase(term) & !"review".equalsIgnoreCase(term)){
-            throw new ResourceNotFoundException("Type given was not found. Valid types are 'blog', 'tech', and 'review'");
+        if(!"blog".equalsIgnoreCase(term) && !"technology".equalsIgnoreCase(term) & !"review".equalsIgnoreCase(term)){
+            throw new ResourceNotFoundException("Type given was not found. Valid types are 'blog', 'technology', and 'review'");
         }
 
         return this.articleService.getArticlesByType(term, pageable);
