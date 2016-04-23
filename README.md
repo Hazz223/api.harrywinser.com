@@ -24,7 +24,7 @@ This data is contained within the Spring pagination. You can check out more of t
 
 Example: /article/type/blog?page2&limit=3
 
-#####Searching By type
+#####Searching
 
 `article/type?search={first-type},{second-type}&page={number}&limit={number}&sort={sorting}`
 
