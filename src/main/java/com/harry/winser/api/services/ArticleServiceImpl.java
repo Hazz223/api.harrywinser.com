@@ -1,9 +1,9 @@
-package application.services;
+package com.harry.winser.api.services;
 
-import application.domain.Article;
-import application.domain.ArticleDao;
-import application.services.converters.ArticleToDtoConverter;
-import application.web.ArticleDto;
+import com.harry.winser.api.domain.Article;
+import com.harry.winser.api.domain.ArticleDao;
+import com.harry.winser.api.services.converters.ArticleToDtoConverter;
+import com.harry.winser.api.web.ArticleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -82,6 +82,18 @@ public class ArticleServiceImpl implements ArticleService {
 
 
         return new PageImpl<>(result, pageable, totalElements);
+    }
+
+    @Override
+    public Page<ArticleDto> searchForArticlesByTypes(List<String> type, Pageable pageable) {
+
+        Page<Article> pageArticles = this.articleDao.findByTypeInOrderByCreateDateDesc(type, pageable);
+
+        List<ArticleDto> result = pageArticles.getContent().stream()
+                .map(this.dtoConverter::convert)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
 
     private Long convertSearchTermToLong(String searchTerm){

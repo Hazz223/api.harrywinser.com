@@ -6,6 +6,7 @@ anyone can fork it and attach their own database etc. I'll attach the schema too
 
 ## API
 
+#####Getting Articles
 `article/{name, clean_name, or id}`
 Get an article either by it's id, or by it's name or clean_name. This will return you a single article.
 This will throw a 404 if none are found
@@ -23,15 +24,23 @@ This data is contained within the Spring pagination. You can check out more of t
 
 Example: /article/type/blog?page2&limit=3
 
-`article?search={some name}`
+#####Searching By type
+
+`article/type?search={first-type},{second-type}&page={number}&limit={number}&sort={sorting}`
+
+You can also search using a list of types. This will return a list of articles by the different types, in date order.
+
+Example: /article/type?search=blog,review
+
+`article?search={some name}&page={number}&limit={number}&sort={sorting}`
 
 Searches, and will return any matches where the name or clean_title contains / matches. The same pageination rules apply as above.
 This will return an empty list if none are found.
+
 Example: /article?searchTerm=example_blog&page=1&limit=2
 
 Please note that search is currently not working 100%. For some arbitrary reason, it doesn't always search the content in the
 main data block. Not 100% sure why. But will update once I've gotten to the bottom of this.
-
 
 ## Installation
 

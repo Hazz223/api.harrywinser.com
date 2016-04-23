@@ -1,6 +1,6 @@
-package application.services;
+package com.harry.winser.api.services;
 
-import application.web.ArticleDto;
+import com.harry.winser.api.web.ArticleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,5 +13,7 @@ public interface ArticleService {
     Page<ArticleDto> getArticlesByType(String type, Pageable pageable);
 
     Page<ArticleDto> searchForArticles(String searchTerm, Pageable pageable);
+
+    Page<ArticleDto> searchForArticlesByTypes(List<String> type, Pageable pageable);
 
 }

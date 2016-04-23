@@ -1,36 +1,40 @@
-package application.domain;
+package com.harry.winser.api.web;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-@Entity
-@Table(name = "articles")
-public class Article {
+public class ArticleDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    private Date createDate;
+    private Long id;
+    private String date;
     private String type;
     private String title;
     private String cleanTitle;
     private String data;
 
-    public long getId() {
+    public ArticleDto() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setDate(Date date){
+
+        this.date = this.convertDate(date);
     }
 
     public String getType() {
@@ -49,6 +53,7 @@ public class Article {
         this.title = title;
     }
 
+    @JsonProperty("clean_title")
     public String getCleanTitle() {
         return cleanTitle;
     }
@@ -64,4 +69,10 @@ public class Article {
     public void setData(String data) {
         this.data = data;
     }
+
+    private String convertDate(Date toConvert){
+        String format = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(toConvert);
+        return format;
+    }
 }
+

@@ -1,10 +1,11 @@
-package application.domain;
+package com.harry.winser.api.domain;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -21,5 +22,7 @@ public interface ArticleDao extends PagingAndSortingRepository<Article, Long> {
     Page<Article> findByCleanTitleContainingIgnoreCase(String term, Pageable pageable);
 
     Page<Article> findByDataContainingIgnoreCase(String term, Pageable page);
+
+    Page<Article> findByTypeInOrderByCreateDateDesc(List<String> terms, Pageable pageable);
 
 }
