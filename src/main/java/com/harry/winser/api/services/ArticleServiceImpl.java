@@ -3,6 +3,8 @@ package com.harry.winser.api.services;
 import com.harry.winser.api.domain.Article;
 import com.harry.winser.api.domain.ArticleDao;
 import com.harry.winser.api.services.converters.ArticleToDtoConverter;
+import com.harry.winser.api.services.exceptions.ArticleNotFoundException;
+import com.harry.winser.api.services.exceptions.ArticleServiceException;
 import com.harry.winser.api.web.ArticleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,13 +31,26 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDto getArticleByIdentifier(String term) {
 
         Long searchId = this.convertSearchTermToLong(term);
+        Optional<Article> byId = Optional.empty();
+
+        if (searchId != null) {
+
+            byId = this.articleDao.findById(searchId);
+        }
 
         Optional<Article> articleOptional =
-                this.articleDao.findByTitleIgnoreCaseOrCleanTitleIgnoreCaseOrId(term, term, searchId);
+                this.articleDao.findByTitleIgnoreCaseOrCleanTitleIgnoreCase(term, term);
 
-        Article article = articleOptional.orElseThrow(() -> new RuntimeException("Article not found"));
+        if (!articleOptional.isPresent() && !byId.isPresent()) {
+            throw new ArticleNotFoundException("No article found for given identifier");
+        }
 
-        return this.dtoConverter.convert(article);
+        if(byId.isPresent()){
+
+            return this.dtoConverter.convert(byId.get());
+        }
+
+        return this.dtoConverter.convert(articleOptional.get());
     }
 
     @Override
@@ -43,15 +58,11 @@ public class ArticleServiceImpl implements ArticleService {
 
         Page<Article> pageArticles;
 
-        if("all".equalsIgnoreCase(type)){
-            pageArticles = this.articleDao.findAll(pageable);
-        }
-
         pageArticles = this.articleDao.findByType(type, pageable);
 
         List<ArticleDto> result = pageArticles.getContent().stream()
-                        .map(this.dtoConverter::convert)
-                        .collect(Collectors.toList());
+                .map(this.dtoConverter::convert)
+                .collect(Collectors.toList());
 
         Collections.sort(result, (o1, o2) -> {
             if (o1.getDate() == null || o2.getDate() == null)
@@ -110,14 +121,13 @@ public class ArticleServiceImpl implements ArticleService {
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
 
-    private Long convertSearchTermToLong(String searchTerm){
+    private Long convertSearchTermToLong(String searchTerm) {
 
-        Long result = 0L;
+        Long result = null;
 
-        try{
+        try {
             result = Long.valueOf(searchTerm);
-        }catch(NumberFormatException ex){
-            // Should log here
+        } catch (NumberFormatException ex) {
         }
 
         return result;

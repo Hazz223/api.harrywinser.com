@@ -11,9 +11,9 @@ import java.util.Optional;
 @Transactional
 public interface ArticleDao extends PagingAndSortingRepository<Article, Long> {
 
-    Optional<Article> findByTitleIgnoreCaseOrCleanTitleIgnoreCaseOrId(String term, String cleanTitle, Long id);
+    Optional<Article> findByTitleIgnoreCaseOrCleanTitleIgnoreCase(String term, String cleanTitle);
 
-    Page<Article> findByTitleContainingIgnoreCaseOrCleanTitleContainingIgnoreCaseOrDataContainingIgnoreCase(String term, String cleanTitle, String data, Pageable pageable);
+    Optional<Article> findById(Long id);
 
     Page<Article> findByType(String type, Pageable pageable);
 

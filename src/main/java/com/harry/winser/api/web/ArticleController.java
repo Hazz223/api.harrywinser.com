@@ -3,13 +3,13 @@ package com.harry.winser.api.web;
 
 import com.harry.winser.api.exceptions.ResourceNotFoundException;
 import com.harry.winser.api.services.ArticleService;
+import com.harry.winser.api.services.exceptions.ArticleNotFoundException;
+import com.harry.winser.api.services.exceptions.ArticleServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +23,6 @@ public class ArticleController {
     public ArticleDto getArticleByIdentifier(@PathVariable("id") String id){
 
         return this.articleService.getArticleByIdentifier(id);
-
     }
 
     @RequestMapping(value = "/article/type/{term}")
@@ -50,5 +49,19 @@ public class ArticleController {
     public Page<ArticleDto> searchForArticle(@RequestParam("search") String searchTerm, Pageable pageable){
 
         return this.articleService.searchForArticles(searchTerm, pageable);
+    }
+
+    @ResponseStatus(value= HttpStatus.NOT_FOUND)
+    @ExceptionHandler({ArticleNotFoundException.class})
+    public ErrorDto articleNotFound(Exception ex) {
+
+        return new ErrorDto(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+    }
+
+    @ResponseStatus(value= HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({ArticleServiceException.class})
+    public ErrorDto interalServerError(Exception ex) {
+
+        return new ErrorDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
     }
 }
