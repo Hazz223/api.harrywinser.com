@@ -10,9 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,6 +53,12 @@ public class ArticleServiceImpl implements ArticleService {
                         .map(this.dtoConverter::convert)
                         .collect(Collectors.toList());
 
+        Collections.sort(result, (o1, o2) -> {
+            if (o1.getDate() == null || o2.getDate() == null)
+                return 0;
+            return o2.getDate().compareTo(o1.getDate());
+        });
+
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
 
@@ -65,8 +69,7 @@ public class ArticleServiceImpl implements ArticleService {
         Page<Article> cleanTitleArticles = this.articleDao.findByCleanTitleContainingIgnoreCase(searchTerm, pageable);
         Page<Article> dataArticles = this.articleDao.findByDataContainingIgnoreCase(searchTerm, pageable);
 
-
-        List<Article> pageArticles = new ArrayList<>();
+        Set<Article> pageArticles = new HashSet<>();
 
         pageArticles.addAll(titleArticles.getContent());
         pageArticles.addAll(cleanTitleArticles.getContent());
@@ -80,6 +83,11 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(this.dtoConverter::convert)
                 .collect(Collectors.toList());
 
+        Collections.sort(result, (o1, o2) -> {
+            if (o1.getDate() == null || o2.getDate() == null)
+                return 0;
+            return o2.getDate().compareTo(o1.getDate());
+        });
 
         return new PageImpl<>(result, pageable, totalElements);
     }
@@ -92,6 +100,12 @@ public class ArticleServiceImpl implements ArticleService {
         List<ArticleDto> result = pageArticles.getContent().stream()
                 .map(this.dtoConverter::convert)
                 .collect(Collectors.toList());
+
+        Collections.sort(result, (o1, o2) -> {
+            if (o1.getDate() == null || o2.getDate() == null)
+                return 0;
+            return o2.getDate().compareTo(o1.getDate());
+        });
 
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
