@@ -32,6 +32,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile "org.springframework.boot:spring-boot-starter-mustache:${springBootVersion}"
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile('com.google.guava:guava:r05')
     runtime('mysql:mysql-connector-java')
