@@ -1,7 +1,7 @@
 package com.harry.winser.api.services.converters;
 
-import com.harry.winser.api.domain.Article;
-import com.harry.winser.api.web.ArticleDto;
+import com.harry.winser.api.domain.article.Article;
+import com.harry.winser.api.web.dto.ArticleDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

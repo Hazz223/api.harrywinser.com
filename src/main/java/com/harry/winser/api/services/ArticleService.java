@@ -1,6 +1,6 @@
 package com.harry.winser.api.services;
 
-import com.harry.winser.api.web.ArticleDto;
+import com.harry.winser.api.web.dto.ArticleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

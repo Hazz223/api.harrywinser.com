@@ -1,11 +1,10 @@
 package com.harry.winser.api.services;
 
-import com.harry.winser.api.domain.Article;
-import com.harry.winser.api.domain.ArticleDao;
+import com.harry.winser.api.domain.article.Article;
+import com.harry.winser.api.domain.article.ArticleDao;
 import com.harry.winser.api.services.converters.ArticleToDtoConverter;
 import com.harry.winser.api.services.exceptions.ArticleNotFoundException;
-import com.harry.winser.api.services.exceptions.ArticleServiceException;
-import com.harry.winser.api.web.ArticleDto;
+import com.harry.winser.api.web.dto.ArticleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

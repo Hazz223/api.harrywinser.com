@@ -1,4 +1,4 @@
-package com.harry.winser.api.web;
+package com.harry.winser.api.web.dto;
 
 public class ErrorDto {
 
