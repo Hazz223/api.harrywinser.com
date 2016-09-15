@@ -52,12 +52,12 @@ public final class CommentBuilder {
 
     public Comment build() {
         Comment comment = new Comment();
-        comment.setId(id);
-        comment.setGuid(guid);
-        comment.setUserName(userName);
-        comment.setComment(comment);
-        comment.setCreateDate(createDate);
-        comment.setArticleTitle(articleTitle);
+        comment.setId(this.id);
+        comment.setGuid(this.guid);
+        comment.setUserName(this.userName);
+        comment.setComment(this.comment);
+        comment.setCreateDate(this.createDate);
+        comment.setArticleTitle(this.articleTitle);
         return comment;
     }
 }
