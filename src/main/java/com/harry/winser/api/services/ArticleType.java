@@ -5,6 +5,7 @@ public enum ArticleType {
 
     technology("technology"),
     blog("blog"),
+    project("project"),
     review("review");
 
     private String type;
