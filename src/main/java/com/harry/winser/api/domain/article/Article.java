@@ -1,5 +1,7 @@
 package com.harry.winser.api.domain.article;
 
+import com.harry.winser.api.services.ArticleType;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,7 +14,11 @@ public class Article {
     private long id;
 
     private Date createDate;
-    private String type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private ArticleType type;
+
     private String title;
     private String cleanTitle;
     private String data;
@@ -33,11 +39,11 @@ public class Article {
         this.createDate = createDate;
     }
 
-    public String getType() {
+    public ArticleType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ArticleType type) {
         this.type = type;
     }
 
