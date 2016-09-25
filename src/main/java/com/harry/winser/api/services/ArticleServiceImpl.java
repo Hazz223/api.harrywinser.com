@@ -22,41 +22,34 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
     private ArticleToDtoConverter dtoConverter;
     private CreateArticleToArticleConverter createArticleToArticleConverter;
+    private ArticleDateComparator articleDateComparator;
 
     @Autowired
     public ArticleServiceImpl(ArticleDao articleDao,
                               ArticleToDtoConverter dtoConverter,
-                              CreateArticleToArticleConverter createArticleToArticleConverter) {
+                              CreateArticleToArticleConverter createArticleToArticleConverter,
+                              ArticleDateComparator comparator) {
 
         this.articleDao = articleDao;
         this.dtoConverter = dtoConverter;
         this.createArticleToArticleConverter = createArticleToArticleConverter;
+        this.articleDateComparator = comparator;
     }
 
     @Override
     public ArticleDto getArticleByIdentifier(String term) {
 
         Long searchId = this.convertSearchTermToLong(term);
-        Optional<Article> byId = Optional.empty();
+        Optional<Article> articleOpt;
 
         if (searchId != null) {
 
-            byId = this.articleDao.findById(searchId);
+            articleOpt = this.articleDao.findById(searchId);
+        } else {
+            articleOpt = this.articleDao.findByTitleIgnoreCaseOrCleanTitleIgnoreCase(term, term);
         }
 
-        Optional<Article> articleOptional =
-                this.articleDao.findByTitleIgnoreCaseOrCleanTitleIgnoreCase(term, term);
-
-        if (!articleOptional.isPresent() && !byId.isPresent()) {
-            throw new ArticleNotFoundException("No article found for given identifier");
-        }
-
-        if(byId.isPresent()){
-
-            return this.dtoConverter.convert(byId.get());
-        }
-
-        return this.dtoConverter.convert(articleOptional.get());
+        return this.dtoConverter.convert(articleOpt.orElseThrow(() -> new ArticleNotFoundException("No article found for given term: " + term)));
     }
 
     @Override
@@ -70,11 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(this.dtoConverter::convert)
                 .collect(Collectors.toList());
 
-        Collections.sort(result, (o1, o2) -> {
-            if (o1.getDate() == null || o2.getDate() == null)
-                return 0;
-            return o2.getDate().compareTo(o1.getDate());
-        });
+        Collections.sort(result, this.articleDateComparator);
 
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
@@ -100,11 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(this.dtoConverter::convert)
                 .collect(Collectors.toList());
 
-        Collections.sort(result, (o1, o2) -> {
-            if (o1.getDate() == null || o2.getDate() == null)
-                return 0;
-            return o2.getDate().compareTo(o1.getDate());
-        });
+        Collections.sort(result, this.articleDateComparator);
 
         return new PageImpl<>(result, pageable, totalElements);
     }
