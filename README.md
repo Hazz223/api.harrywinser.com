@@ -1,5 +1,7 @@
 # api.harrywinser.com
 
+[![Build Status](https://travis-ci.org/Hazz223/api.harrywinser.com.svg?branch=master)](https://travis-ci.org/Hazz223/api.harrywinser.com)
+
 Simple project to host the api for the multiple blogging portals i now seem to have (tech.harrywinser.com, harrywinser.com).
 This project should allow me to separate the frontends from the backend. I'll attempt to make it generic as possible, so
 anyone can fork it and attach their own database etc. I'll attach the schema too (found under the SQL folder).
