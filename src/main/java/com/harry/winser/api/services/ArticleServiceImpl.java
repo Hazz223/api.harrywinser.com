@@ -3,8 +3,10 @@ package com.harry.winser.api.services;
 import com.harry.winser.api.domain.article.Article;
 import com.harry.winser.api.domain.article.ArticleDao;
 import com.harry.winser.api.services.converters.ArticleToDtoConverter;
+import com.harry.winser.api.services.converters.CreateArticleToArticleConverter;
 import com.harry.winser.api.services.exceptions.ArticleNotFoundException;
 import com.harry.winser.api.web.dto.ArticleDto;
+import com.harry.winser.api.web.dto.CreateArticleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,11 +21,16 @@ public class ArticleServiceImpl implements ArticleService {
 
     private ArticleDao articleDao;
     private ArticleToDtoConverter dtoConverter;
+    private CreateArticleToArticleConverter createArticleToArticleConverter;
 
     @Autowired
-    public ArticleServiceImpl(ArticleDao articleDao, ArticleToDtoConverter articleToDtoConverter) {
+    public ArticleServiceImpl(ArticleDao articleDao,
+                              ArticleToDtoConverter dtoConverter,
+                              CreateArticleToArticleConverter createArticleToArticleConverter) {
+
         this.articleDao = articleDao;
-        this.dtoConverter = articleToDtoConverter;
+        this.dtoConverter = dtoConverter;
+        this.createArticleToArticleConverter = createArticleToArticleConverter;
     }
 
     @Override
@@ -118,6 +125,14 @@ public class ArticleServiceImpl implements ArticleService {
         });
 
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
+    }
+
+    @Override
+    public void createArticle(CreateArticleDto articleDto) {
+
+        Article newArticle = this.createArticleToArticleConverter.convert(articleDto);
+
+        this.articleDao.save(newArticle);
     }
 
     private Long convertSearchTermToLong(String searchTerm) {
