@@ -4,10 +4,9 @@ import com.harry.winser.api.domain.comment.Comment;
 import com.harry.winser.api.domain.comment.CommentBuilder;
 import com.harry.winser.api.web.dto.CommentDto;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by harry on 09/07/2016.
- */
+@Component
 public class CommentDtoToCommentConverter implements Converter<CommentDto, Comment> {
 
 

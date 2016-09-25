@@ -21,9 +21,6 @@ public class CommentServiceImpl implements CommentService {
         this.commentDao = commentDao;
     }
 
-    @Autowired
-
-
     @Override
     public void saveComment(CommentDto dto) {
 
