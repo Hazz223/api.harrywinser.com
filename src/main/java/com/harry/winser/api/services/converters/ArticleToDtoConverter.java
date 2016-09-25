@@ -5,9 +5,6 @@ import com.harry.winser.api.web.dto.ArticleDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-/**
- * Created by harry on 30/03/2016.
- */
 @Component
 public class ArticleToDtoConverter implements Converter<Article, ArticleDto> {
 
@@ -19,7 +16,7 @@ public class ArticleToDtoConverter implements Converter<Article, ArticleDto> {
         articleDto.setId(source.getId());
         articleDto.setCleanTitle(source.getCleanTitle());
         articleDto.setTitle(source.getTitle());
-        articleDto.setType(source.getType());
+        articleDto.setType(source.getType().toString().toLowerCase());
         articleDto.setData(source.getData());
         articleDto.setDate(source.getCreateDate());
 
