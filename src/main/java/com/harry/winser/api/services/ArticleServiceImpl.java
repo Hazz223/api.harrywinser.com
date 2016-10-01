@@ -61,9 +61,8 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<ArticleDto> result = pageArticles.getContent().stream()
                 .map(this.dtoConverter::convert)
+                .sorted(this.articleDtoDateComparator)
                 .collect(Collectors.toList());
-
-        Collections.sort(result, this.articleDtoDateComparator);
 
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
@@ -87,9 +86,8 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<ArticleDto> result = pageArticles.stream()
                 .map(this.dtoConverter::convert)
+                .sorted(this.articleDtoDateComparator)
                 .collect(Collectors.toList());
-
-        Collections.sort(result, this.articleDtoDateComparator);
 
         return new PageImpl<>(result, pageable, totalElements);
     }
@@ -101,13 +99,8 @@ public class ArticleServiceImpl implements ArticleService {
 
         List<ArticleDto> result = pageArticles.getContent().stream()
                 .map(this.dtoConverter::convert)
+                .sorted(this.articleDtoDateComparator)
                 .collect(Collectors.toList());
-
-        Collections.sort(result, (o1, o2) -> {
-            if (o1.getDate() == null || o2.getDate() == null)
-                return 0;
-            return o2.getDate().compareTo(o1.getDate());
-        });
 
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
