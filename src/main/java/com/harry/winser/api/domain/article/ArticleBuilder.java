@@ -1,7 +1,5 @@
 package com.harry.winser.api.domain.article;
 
-import com.harry.winser.api.services.ArticleType;
-
 import java.util.Date;
 
 /**
@@ -10,7 +8,7 @@ import java.util.Date;
 public final class ArticleBuilder {
     private long id;
     private Date createDate;
-    private ArticleType type;
+    private String type;
     private String title;
     private String cleanTitle;
     private String data;
@@ -32,7 +30,7 @@ public final class ArticleBuilder {
         return this;
     }
 
-    public ArticleBuilder withType(ArticleType type) {
+    public ArticleBuilder withType(String type) {
         this.type = type;
         return this;
     }

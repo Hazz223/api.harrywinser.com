@@ -1,7 +1,5 @@
 package com.harry.winser.api.web.dto;
 
-import com.harry.winser.api.services.ArticleType;
-
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -12,7 +10,7 @@ public class CreateArticleDto {
     @Valid
     @NotNull
     @Min(3)
-    private ArticleType type;
+    private String type;
     @NotNull
     @Min(3)
     private String title;
@@ -23,11 +21,11 @@ public class CreateArticleDto {
     @Min(3)
     private String data;
 
-    public ArticleType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ArticleType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

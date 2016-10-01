@@ -7,7 +7,6 @@ import com.harry.winser.api.domain.article.ArticleDao;
 import com.harry.winser.api.services.ArticleDateComparator;
 import com.harry.winser.api.services.ArticleService;
 import com.harry.winser.api.services.ArticleServiceImpl;
-import com.harry.winser.api.services.ArticleType;
 import com.harry.winser.api.services.converters.ArticleToDtoConverter;
 import com.harry.winser.api.services.converters.CreateArticleToArticleConverter;
 import com.harry.winser.api.services.exceptions.ArticleNotFoundException;
@@ -52,7 +51,7 @@ public class ArticleServiceTest {
 
         Date firstArticleDate = new Date();
         this.firstArticle = ArticleBuilder.anArticle()
-                .withType(ArticleType.blog)
+                .withType("blog")
                 .withTitle("Article 1")
                 .withData("This is the first Article")
                 .withCreateDate(firstArticleDate)
