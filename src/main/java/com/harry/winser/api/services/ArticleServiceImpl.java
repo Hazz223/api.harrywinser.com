@@ -22,18 +22,18 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleDao articleDao;
     private ArticleToDtoConverter dtoConverter;
     private CreateArticleToArticleConverter createArticleToArticleConverter;
-    private ArticleDateComparator articleDateComparator;
+    private ArticleDtoDateComparator articleDtoDateComparator;
 
     @Autowired
     public ArticleServiceImpl(ArticleDao articleDao,
                               ArticleToDtoConverter dtoConverter,
                               CreateArticleToArticleConverter createArticleToArticleConverter,
-                              ArticleDateComparator comparator) {
+                              ArticleDtoDateComparator comparator) {
 
         this.articleDao = articleDao;
         this.dtoConverter = dtoConverter;
         this.createArticleToArticleConverter = createArticleToArticleConverter;
-        this.articleDateComparator = comparator;
+        this.articleDtoDateComparator = comparator;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(this.dtoConverter::convert)
                 .collect(Collectors.toList());
 
-        Collections.sort(result, this.articleDateComparator);
+        Collections.sort(result, this.articleDtoDateComparator);
 
         return new PageImpl<>(result, pageable, pageArticles.getTotalElements());
     }
@@ -89,7 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(this.dtoConverter::convert)
                 .collect(Collectors.toList());
 
-        Collections.sort(result, this.articleDateComparator);
+        Collections.sort(result, this.articleDtoDateComparator);
 
         return new PageImpl<>(result, pageable, totalElements);
     }
