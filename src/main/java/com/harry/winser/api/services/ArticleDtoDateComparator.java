@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Comparator;
 import java.util.Date;
 
+@Component
 public class ArticleDtoDateComparator implements Comparator<ArticleDto> {
 
     @Override
