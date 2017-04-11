@@ -17,11 +17,4 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @PostConstruct
-    public void loadDockerSecrets() throws DockerSecretsException {
-
-        Map<String, String> secrets = new DockerSecretsLoader().loadAsMap();
-        secrets.forEach(System::setProperty);
-    }
-
 }
