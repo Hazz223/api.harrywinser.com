@@ -1,4 +1,4 @@
-FROM hazz22/pi-openjre
+FROM hazz22/pi-jessie-java:oracle-jdk8
 
 ADD app.jar /usr/src/app.jar
 ADD application.properties /usr/src/application.properties
