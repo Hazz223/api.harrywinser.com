@@ -3,3 +3,6 @@
 /.gradle
 /.idea
 /src/main/resources/application.properties
+/docker-arm/app.jar
+/docker-arm/application.properties
+/docker-arm/log4j2.xml
