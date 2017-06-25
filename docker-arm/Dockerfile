@@ -10,4 +10,6 @@ RUN sh -c 'touch app.jar'
 
 EXPOSE 9000
 
+HEALTHCHECK CMD curl --fail http://localhost:9000/health || exit 1
+
 CMD ["java", "-jar", "app.jar"]
