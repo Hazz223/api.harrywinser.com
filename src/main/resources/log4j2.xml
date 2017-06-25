@@ -13,4 +13,9 @@
             <AppenderRef ref="ErrorFile"/>
         </Root>
     </Loggers>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
 </Configuration>
