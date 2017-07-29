@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ArticleService {
 
+    Page<ArticleDto> getAllArticles(Pageable pageable);
+
     ArticleDto getArticleByIdentifier(String id);
 
     Page<ArticleDto> getArticlesByType(String type, Pageable pageable);

@@ -37,13 +37,27 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public Page<ArticleDto> getAllArticles(Pageable pageable) {
+
+        Page<Article> articlePages = this.articleDao.findAll(pageable);
+
+        Long totalElements = articlePages.getTotalElements();
+
+        List<ArticleDto> result = articlePages.getContent().stream()
+                .map(this.dtoConverter::convert)
+                .sorted(this.articleDtoDateComparator)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(result, pageable, totalElements);
+    }
+
+    @Override
     public ArticleDto getArticleByIdentifier(String term) {
 
         Long searchId = this.convertSearchTermToLong(term);
         Optional<Article> articleOpt;
 
         if (searchId != null) {
-
             articleOpt = this.articleDao.findById(searchId);
         } else {
             articleOpt = this.articleDao.findByTitleIgnoreCaseOrCleanTitleIgnoreCase(term, term);
