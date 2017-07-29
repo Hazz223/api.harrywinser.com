@@ -16,7 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class ArticleController {
@@ -52,15 +54,17 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/article")
-    public Page<ArticleDto> searchForArticle(@RequestParam("search") String searchTerm, Pageable pageable) {
+    public Page<ArticleDto> searchForArticle(@RequestParam(value = "search", required = false) String searchTerm, Pageable pageable) {
 
-        return this.articleService.searchForArticles(searchTerm, pageable);
-    }
+        Page<ArticleDto> page;
 
-    @RequestMapping(value = "/article", method = RequestMethod.PUT)
-    public void createArticle(@RequestBody @Valid CreateArticleDto createArticleDto) {
+        if(Objects.isNull(searchTerm) || searchTerm.isEmpty()){
+            page = this.articleService.getAllArticles(pageable);
+        } else {
+            page = this.articleService.searchForArticles(searchTerm, pageable);
+        }
 
-        this.articleService.createArticle(createArticleDto);
+        return page;
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
