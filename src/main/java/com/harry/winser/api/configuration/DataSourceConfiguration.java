@@ -19,11 +19,11 @@ public class DataSourceConfiguration {
 
         Map<String, String> secrets = new DockerSecretsLoader().loadAsMap();
 
-        HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(secrets.get("spring.datasource.url"));
-        ds.setUsername(secrets.get("spring.datasource.username"));
-        ds.setPassword(secrets.get("spring.datasource.password"));
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl(secrets.get("spring.datasource.url"));
+        dataSource.setUsername(secrets.get("spring.datasource.username"));
+        dataSource.setPassword(secrets.get("spring.datasource.password"));
 
-        return ds;
+        return dataSource;
     }
 }
