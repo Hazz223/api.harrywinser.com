@@ -2,6 +2,7 @@ package com.harry.winser.api.configuration;
 
 import com.harry.winser.docker.secrets.DockerSecretsException;
 import com.harry.winser.docker.secrets.DockerSecretsLoader;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +19,11 @@ public class DataSourceConfiguration {
 
         Map<String, String> secrets = new DockerSecretsLoader().loadAsMap();
 
-        return DataSourceBuilder
-                .create()
-                .username(secrets.get("spring.datasource.username"))
-                .password(secrets.get("spring.datasource.password"))
-                .url(secrets.get("spring.datasource.url"))
-                .driverClassName("com.mysql.jdbc.Driver")
-                .build();
+        HikariDataSource ds = new HikariDataSource();
+        ds.setJdbcUrl(secrets.get("spring.datasource.url"));
+        ds.setUsername(secrets.get("spring.datasource.username"));
+        ds.setPassword(secrets.get("spring.datasource.password"));
+
+        return ds;
     }
 }
