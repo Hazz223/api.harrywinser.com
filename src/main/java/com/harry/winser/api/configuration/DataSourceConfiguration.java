@@ -23,6 +23,7 @@ public class DataSourceConfiguration {
         dataSource.setJdbcUrl(secrets.get("spring.datasource.url"));
         dataSource.setUsername(secrets.get("spring.datasource.username"));
         dataSource.setPassword(secrets.get("spring.datasource.password"));
+        dataSource.setMaxLifetime(60000);
 
         return dataSource;
     }
