@@ -7,6 +7,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 public interface ArticleDao extends PagingAndSortingRepository<Article, Long> {
 
     Page<Article> findAll(Pageable pageable);
