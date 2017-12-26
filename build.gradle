@@ -45,7 +45,7 @@ dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion")
     compile 'org.slf4j:slf4j-parent:1.7.22'
-    compile 'com.github.Hazz223:docker-secrets:0.0.1'
+    compile 'com.github.Hazz223:docker-secrets:1.0.0'
     compile 'com.zaxxer:HikariCP:2.4.1'
 
     runtime('mysql:mysql-connector-java')
@@ -59,24 +59,29 @@ task wrapper(type: Wrapper) {
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
-task createDockerFolder(type: Copy, group: "docker"){
+build.mustRunAfter clean
 
-    from "src/main/docker"
-    from ("src/main/resources/") {
+task createDockerFolder(type: Copy, group: "docker", dependsOn: ["clean", "build"]) {
+
+    from "src/main/deploy"
+    from("src/main/resources/") {
         include "application.properties"
         include "log4j2.xml"
     }
 
-    from ("build/libs"){
+    from("build/libs") {
         include "*.jar"
         rename { file ->
             file = "app.jar"
-
         }
     }
 
-    into 'docker/'
+    into 'build/docker/'
 }
 
-build.mustRunAfter clean
-createDockerFolder.dependsOn(build, clean)
+task createImage(type: Exec, group: "docker", dependsOn: 'createDockerFolder') {
+
+    workingDir "build/docker"
+
+    commandLine 'docker', 'build', '-t', "hazz22/blog-api:${project.version}.${new Date().time}", "."
+}
